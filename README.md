@@ -36,3 +36,10 @@ This implementation uses **union by rank** (attach the shallower tree under the 
 - **`connected` requires existing elements**: unlike `union`, `connected(a, b)` raises `KeyError` if either element is missing. This is intentional: a query should not silently mutate the structure.
 - **`get_sets` order**: the returned list of sets has no guaranteed order, either among sets or within a set. Treat it as an unordered collection.
 - **Element types**: any hashable object can be used as an element, including strings, numbers, and tuples.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
